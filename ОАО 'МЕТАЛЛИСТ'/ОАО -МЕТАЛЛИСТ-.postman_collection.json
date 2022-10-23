@@ -1,0 +1,221 @@
+{
+	"info": {
+		"_postman_id": "fc1318d1-3239-4a22-87ea-c10f4419bc51",
+		"name": "ОАО \"МЕТАЛЛИСТ\"",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23817721"
+	},
+	"item": [
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "signin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": {{login}},\r\n    \"password\": {{password}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createChannel",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/orgs/{{orgOguid}}/channels",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"orgs",
+								"{{orgOguid}}",
+								"channels"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "getChannels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/orgs/{{orgOguid}}/channels",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"orgs",
+								"{{orgOguid}}",
+								"channels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getChannelContent",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/orgs/{{orgOguid}}/channels/{{channelOguid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"orgs",
+								"{{orgOguid}}",
+								"channels",
+								"{{channelOguid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PUT",
+			"item": [
+				{
+					"name": "editChannel",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/orgs/{{orgOguid}}/channels/{{channelOguid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"orgs",
+								"{{orgOguid}}",
+								"channels",
+								"{{channelOguid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DELETE",
+			"item": [
+				{
+					"name": "deleteChannel",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/orgs/{{orgOguid}}/channels/{{channelOguid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"orgs",
+								"{{orgOguid}}",
+								"channels",
+								"{{channelOguid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{token}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "Access-Token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "null",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "null",
+			"type": "string"
+		},
+		{
+			"key": "login",
+			"value": "adm1noff.t@yandex.ru",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "SinglePassword7",
+			"type": "string"
+		},
+		{
+			"key": "directionList",
+			"value": "INCOMING, OUTGOING",
+			"type": "string"
+		},
+		{
+			"key": "statusList",
+			"value": "DISABLED, ENABLED",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,276 @@
+{
+	"info": {
+		"_postman_id": "96ed7991-5d18-4659-9e4f-90ba26180470",
+		"name": "www.gismeteo.ru",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23817721"
+	},
+	"item": [
+		{
+			"name": "getCurrent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var query = pm.collectionVariables.get(\"query\");\r",
+							"\r",
+							"pm.test(`Verify lang is ru`, function () {\r",
+							"    pm.expect(query.lang).to.eql('ru');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/{{ver}}/current?lang={{lang}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{ver}}",
+						"current"
+					],
+					"query": [
+						{
+							"key": "lang",
+							"value": "{{lang}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getDays",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var query = pm.collectionVariables.get(\"query\");\r",
+							"\r",
+							"var daysMin = parseInt(pm.collectionVariables.get(\"daysMin\"));\r",
+							"var daysMax = parseInt(pm.collectionVariables.get(\"daysMax\"));\r",
+							"\r",
+							"pm.test(`Verify days above ${daysMin} and below ${daysMax}`, function () {\r",
+							"    pm.expect(parseInt(query.days)).to.be.above(daysMin).to.be.below(daysMax);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/{{ver}}/current?days={{days}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{ver}}",
+						"current"
+					],
+					"query": [
+						{
+							"key": "days",
+							"value": "{{days}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCurrentByObject",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/{{ver}}/current/{{object}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{ver}}",
+						"current",
+						"{{object}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCurrentByCoord",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var query = pm.collectionVariables.get(\"query\");\r",
+							"\r",
+							"var latitudeMin = parseInt(pm.collectionVariables.get(\"latitudeMin\"));\r",
+							"var latitudeMax = parseInt(pm.collectionVariables.get(\"latitudeMax\"));\r",
+							" \r",
+							"var longitudeMin = parseInt(pm.collectionVariables.get(\"longitudeMin\"));\r",
+							"var longitudeMax = parseInt(pm.collectionVariables.get(\"longitudeMax\"));\r",
+							"\r",
+							"pm.test(`Verify latitude above ${latitudeMin} and below ${latitudeMax}`, function () {\r",
+							"    pm.expect(parseFloat(query.latitude)).to.be.above(latitudeMin).to.be.below(latitudeMax);\r",
+							"});\r",
+							"\r",
+							"pm.test(`Verify longitude above ${longitudeMin} and below ${longitudeMax}`, function () {\r",
+							"    pm.expect(parseFloat(query.longitude)).to.be.above(longitudeMin).to.be.below(longitudeMax);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/{{ver}}/current?latitude={{latitude}}&longitude={{longitude}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{ver}}",
+						"current"
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "{{latitude}}"
+						},
+						{
+							"key": "longitude",
+							"value": "{{longitude}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{token}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "X-Gismeteo-Token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.collectionVariables.set(\"query\", pm.request.url.query.toObject());",
+					"",
+					"var query = pm.collectionVariables.get(\"query\");",
+					"var badCodes = pm.collectionVariables.get(\"badCodes\").split(', ').map((code) => parseInt(code));",
+					"",
+					"console.log(query);",
+					"console.log(badCodes);",
+					"console.log(pm.response.code);",
+					"",
+					"pm.test(\"Verify status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test(`Verify status code not oneOf [${badCodes}]`, function () {",
+					"    pm.expect(pm.response.code).to.not.be.oneOf(badCodes);",
+					"});",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://api.gismeteo.net",
+			"type": "string"
+		},
+		{
+			"key": "ver",
+			"value": "v2/weather",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "56b30cb255.3443075",
+			"type": "string"
+		},
+		{
+			"key": "query",
+			"value": {
+				"latitude": "54.35",
+				"longitude": "52.52"
+			}
+		},
+		{
+			"key": "badCodes",
+			"value": "400, 401, 404",
+			"type": "string"
+		},
+		{
+			"key": "latitudeMin",
+			"value": "-90",
+			"type": "string"
+		},
+		{
+			"key": "latitudeMax",
+			"value": "90",
+			"type": "string"
+		},
+		{
+			"key": "longitudeMin",
+			"value": "-180",
+			"type": "string"
+		},
+		{
+			"key": "longitudeMax",
+			"value": "180",
+			"type": "string"
+		},
+		{
+			"key": "daysMin",
+			"value": "3",
+			"type": "string"
+		},
+		{
+			"key": "daysMax",
+			"value": "10",
+			"type": "string"
+		}
+	]
+}
